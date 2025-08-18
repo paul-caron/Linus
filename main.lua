@@ -13,7 +13,7 @@ local controls = require("controls")
 --globals
 local sprites = {} --drawable textual sprites objects
 local keys = {} --keypressed keys[key] = true or false
-local player = nil --main hero sprite (cat)
+local player = nil --main hero sprite (Linus the cat)
 local font = nil --game font
 local canvas = nil --a separate window to draw to that isnt affected by glClear
 local fadeAlpha = 0.17
