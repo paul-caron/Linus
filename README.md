@@ -38,4 +38,4 @@ love .
 **build** step.
 
 ## 📊 Version badge
-![Love 2D version](https://img.shields.io/badge/Love-11.5-brightgreen?style=flat-square
+![Love 2D version](https://img.shields.io/badge/Love-11.5-brightgreen?style=flat-square)
