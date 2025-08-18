@@ -4,7 +4,7 @@ Cat and mouse game in Lua
 ## Dependencies
 Depends on LOVE2D game engine
 
-```toml
+```ini
 [VERSION]
 version=LOVE11.5(MysteriousMysteries)
 ```
