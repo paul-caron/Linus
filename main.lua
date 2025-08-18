@@ -29,7 +29,7 @@ function love.load()
     math.randomseed(seed)
 
     --font init
-    local font = love.graphics.newFont('assets/courier-prime/Courier Prime.ttf', 24)
+    local font = love.graphics.newFont('assets/Courier Prime.ttf', 24)
 
     --canvas init
     canvas = love.graphics.newCanvas()
