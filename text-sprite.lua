@@ -62,16 +62,18 @@ function Sprite:initWidth()
     self.width = maxWidth
 end
 
-function Sprite:setBackgroundColor(r,g,b)
+function Sprite:setBackgroundColor(r,g,b,a)
     self.rb = r
     self.gb = g
     self.bb = b
+    self.ab = a
 end
 
-function Sprite:setForegroundColor(r,g,b)
+function Sprite:setForegroundColor(r,g,b,a)
     self.rf = r
     self.gf = g
     self.bf = b
+    self.af = a
 end
 
 function Sprite:draw()
