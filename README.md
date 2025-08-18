@@ -6,8 +6,11 @@ Cat‑and‑mouse game written in Lua, for the LOVE 2D engine
 > See the `[VERSION]` block below for the exact string that LOVE 2D itself reports.
 
 ```ini
-[VERSION]
-**❤️** version = LOVE 11.5(Mysterious Mysteries)
+[DEPENDENCY_LOVE]
+full = LOVE 11.5(Mysterious Mysteries)
+name = LOVE
+version = 11.5
+codename = Mysterious Mysteries
 ```
 
 ## 📦 Dependencies
