@@ -10,6 +10,9 @@ Cat‑and‑mouse game written in Lua, for the LOVE 2D engine
 full = LOVE 11.5(Mysterious Mysteries)
 name = LOVE
 version = 11.5
+major = 11
+minor = 5
+patch = 0
 codename = Mysterious Mysteries
 ```
 
