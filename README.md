@@ -7,7 +7,7 @@ Cat‑and‑mouse game written in Lua, for the LOVE 2D engine
 
 ```ini
 [VERSION]
-**❤️** `version = LOVE 11.5(Mysterious Mysteries)`   <!-- bold + emoji -->
+**❤️** version = LOVE 11.5(Mysterious Mysteries)
 ```
 
 ## 📦 Dependencies
