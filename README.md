@@ -34,6 +34,11 @@ brew install --cask love
 love .
 ```
 
+## Build the game
+```sh
+zip -9 -r linus.love .
+```
+
 > 🛈 If you want to package the game for distribution you’ll want to run the same command as an *executables wrapper* or use a `love` 
 **build** step.
 
