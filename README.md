@@ -6,7 +6,7 @@ Depends on LOVE2D game engine
 
 ```ini
 [VERSION]
-version=LOVE11.5(MysteriousMysteries)
+version = LOVE 11.5(Mysterious Mysteries)
 ```
 
 ```sh
