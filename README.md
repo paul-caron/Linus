@@ -6,7 +6,7 @@ Depends on LOVE2D game engine
 
 ```toml
 [VERSION]
-version=LOVE 11.5 (Mysterious Mysteries)
+version=LOVE11.5(MysteriousMysteries)
 ```
 
 ```sh
