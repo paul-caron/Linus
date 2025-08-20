@@ -97,6 +97,12 @@ function love.update(dt)
     --update player's position
     player:updatePosition()
 
+    --update sprites positions
+    for i, sprite in ipairs(sprites) do
+        sprite:updatePosition()
+    end
+    
+
     -- Collision Player and Mice
     --collision check
     for i, sprite in ipairs(sprites) do
@@ -129,6 +135,9 @@ function love.draw()
     --draw all other sprites
     for index, sprite in ipairs(sprites) do
          sprite:draw()
+        if (debugMode == "1" and sprite.shape) then
+            sprite:drawShape() -- draws the physics engine shape
+        end
     end
 
     --switch back to drawing on screen
