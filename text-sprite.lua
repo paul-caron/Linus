@@ -22,21 +22,17 @@ defaultText = [[
 ==_Y_==
   `-']]
 
-function Sprite:new(world, font, text, x, y, rb, gb, bb, ab, rf, gf, bf, af) -- text = multiline textual sprite, x = x position, y = y position, rb-gb-bb background color, rf-gf-bf foreground color
+function Sprite:new(world, font, text, x, y, r, g, b, a) 
     local instance = setmetatable({}, Sprite)
     instance.font = font or love.graphics.getFont()
     instance.text = text or defaultText
     instance.x = x or 0
     instance.y = y or 0
     instance.lines = splitTextByLines(instance.text)
-    instance.rb = rb or 0.5
-    instance.gb = gb or 0.5
-    instance.bb = bb or 0.5
-    instance.ab = ab or 1
-    instance.rf = rf or 1
-    instance.gf = gf or 0
-    instance.bf = bf or 0
-    instance.af = af or 1
+    instance.r = r or 1
+    instance.g = g or 0
+    instance.b = b or 0
+    instance.a = a or 1
     instance:initWidth()
     instance:initHeight()
 
@@ -71,18 +67,11 @@ function Sprite:initWidth()
     self.width = maxWidth
 end
 
-function Sprite:setBackgroundColor(r,g,b,a)
-    self.rb = r
-    self.gb = g
-    self.bb = b
-    self.ab = a
-end
-
 function Sprite:setForegroundColor(r,g,b,a)
-    self.rf = r
-    self.gf = g
-    self.bf = b
-    self.af = a
+    self.r = r
+    self.g = g
+    self.b = b
+    self.a = a
 end
 
 function Sprite:draw()
@@ -94,10 +83,8 @@ function Sprite:draw()
         self:initHeight()
     end
     love.graphics.setFont(self.font)
-    love.graphics.setColor(self.rb, self.gb, self.bb, self.ab)
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     for i, line in ipairs(self.lines) do
-        love.graphics.setColor(self.rf, self.gf, self.bf, self.af)
+        love.graphics.setColor(self.r, self.g, self.b, self.a)
         love.graphics.print(line, self.x, self.y + y)
         y = y + self.font:getHeight(line) --increase vertical line offset for the next line
     end

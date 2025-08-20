@@ -8,7 +8,7 @@ local mouseText = [[
 
 function Mouse:new(world, font, x, y)
     local f = font or love.graphics.getFont()
-    local instance = Sprite:new(world, font, mouseText, x, y, 0.2,0.2,0.2,0, 1,1,1, 1)
+    local instance = Sprite:new(world, font, mouseText, x, y, 1,1,1, 1)
     return instance
 end
 
