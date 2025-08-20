@@ -15,7 +15,7 @@ controls.getMovementVector = function ()
         vx, vy = vx / len, vy / len
     end
 
-    return 0, 0
+    return vx, vy
 end
 
 return controls

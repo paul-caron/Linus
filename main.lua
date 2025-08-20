@@ -12,22 +12,19 @@ local Cat = require("cat")
 local Player = require("player")
 local controls = require("controls")
 
---globals
--- ===========================================================
---  CONFIGURATION
--- ===========================================================
+--configs
 local ACCEL     = 400       -- pixels / second²
 local MAX_SPEED = 250       -- pixels / second
 local DRAG      = 300       -- pixels / second² when no key is pressed
 
-
-
+--other globals
 local sprites = {} --drawable textual sprites objects
 local player = nil --main hero sprite (Linus the cat)
 local world = nil --the physics world
 local font = nil --text font
 local canvas = nil --a separate window to draw to that isnt affected by glClear
 local fadeAlpha = 0.17 -- the canvas clear color alpha for ghost like movement effect
+local debugMode = nil -- for debugging purpose, monitors inputs, draws sprites shapes.
 
 function love.load()
     debugMode = os.getenv("DEBUG")
@@ -52,7 +49,7 @@ function love.load()
     world = love.physics.newWorld(0, 0, true)
 
     --player init
-    player = Player:new(world, font, 0, 0)
+    player = Player:new(world, font, 0, 600)
 
     --mice init
     for i = 0, 5, 1 do
@@ -98,9 +95,7 @@ function love.update(dt)
     end
 
     --update player's position
-    local x, y = player.body:getPosition()
-    player.x = x
-    player.y = y
+    player:updatePosition()
 
     -- Collision Player and Mice
     --collision check
@@ -121,11 +116,17 @@ end
 function love.draw()
     --draw onto canvas
     love.graphics.setCanvas(canvas)
-    love.graphics.setColor(0, 0, 0, fadeAlpha)  -- RGB(0,0,0) + alpha
+    love.graphics.setColor(0, 0, 0, fadeAlpha) -- rbga
     love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 
     --draw player
     player:draw()
+
+    if (debugMode == "1" and player.shape) then
+        player:drawShape() -- draws the physics engine shape
+    end
+
+    --draw all other sprites
     for index, sprite in ipairs(sprites) do
          sprite:draw()
     end
@@ -138,6 +139,10 @@ function love.draw()
 
 end
 
+
+
+
+-- Inputs debugging section
 function love.keypressed(key, scancode, isRepeat)
     if(debugMode == "1") then
         print("Key Pressed: " .. "\n\tKey: " .. key .. ", \n\tScancode: " .. scancode .. ", \n\tisRepeat: " .. tostring(isRepeat) )

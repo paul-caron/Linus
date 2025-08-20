@@ -37,7 +37,6 @@ function Sprite:new(font, text, x, y, rb, gb, bb, ab, rf, gf, bf, af) -- text = 
     instance.gf = gf or 0
     instance.bf = bf or 0
     instance.af = af or 1
-    instance.drawnOnce = false
     instance:initWidth()
     instance:initHeight()
     return instance
@@ -92,6 +91,22 @@ function Sprite:draw()
         love.graphics.print(line, self.x, self.y + y)
         y = y + self.font:getHeight(line) --increase vertical line offset for the next line
     end
+end
+
+function Sprite:drawShape()
+    local x, y = self.shape:getPoints()
+
+        -- Draw a filled rectangle at the body's position for better visibility
+    love.graphics.rectangle("line", self.x + self.width / 2 + x,
+                            self.y + self.height / 2 + y,
+                            self.width, self.height)
+
+end
+
+function Sprite:updatePosition()
+    local x, y = self.body:getPosition()
+    self.x = x - self.width / 2
+    self.y = y - self.height / 2
 end
 
 function Sprite:collide(other) -- other is type Sprite
