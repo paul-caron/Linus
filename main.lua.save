@@ -3,37 +3,33 @@ package.loaded["text-sprite"] = nil
 package.loaded["mouse"] = nil
 package.loaded["cat"] = nil
 package.loaded["controls"] = nil
-package.loaded["player"] = nil
 
 --imports
 local Sprite = require("text-sprite")
 local Mouse = require("mouse")
 local Cat = require("cat")
-local Player = require("player")
 local controls = require("controls")
 
 --globals
--- ===========================================================
---  CONFIGURATION
--- ===========================================================
-local ACCEL     = 400       -- pixels / second²
-local MAX_SPEED = 250       -- pixels / second
-local DRAG      = 300       -- pixels / second² when no key is pressed
-
-
-
 local sprites = {} --drawable textual sprites objects
+local keys = {} --keypressed keys[key] = true or false
 local player = nil --main hero sprite (Linus the cat)
-local world = nil --the physics world
-local font = nil --text font
+local font = nil --game font
 local canvas = nil --a separate window to draw to that isnt affected by glClear
-local fadeAlpha = 0.17 -- the canvas clear color alpha for ghost like movement effect
+local fadeAlpha = 0.17
 
 function love.load()
     debugMode = os.getenv("DEBUG")
     if(debugMode == "1") then
         print("Load")
     end
+
+    -- 64 pixels = 1 meter (feel free to change this)
+    love.physics.setMeter(64)
+
+    -- gravity vector (x, y): 0, 0 because it’s top‑down
+    world = love.physics.newWorld(0, 0, true)
+    world:setCallbacks(beginContact, endContact)
 
     --random RNG init
     local seed = os.time()
@@ -45,64 +41,22 @@ function love.load()
     --canvas init
     canvas = love.graphics.newCanvas()
 
-    -- 64 pixels = 1 meter (feel free to change this)
-    love.physics.setMeter(64)
-
-    -- gravity vector (x, y): 0, 0 because it’s top‑down
-    world = love.physics.newWorld(0, 0, true)
-
     --player init
-    player = Player:new(world, font, 0, 0)
+    player = Cat:new(font, 0, 0)
 
     --mice init
     for i = 0, 5, 1 do
         local x = math.random() * love.graphics.getWidth();
         local y = math.random() * love.graphics.getHeight();
-        local mouse = Mouse:new(world, font, x, y)
+        local mouse = Mouse:new(font, x, y)
         table.insert(sprites, mouse)
     end
 end
 
 function love.update(dt)
-    -- physics world step
-    world:update(dt)
+    --controls
+    controls(player, keys)
 
-    -- Player Movement
-    -- decide acceleration / braking
-    local ax, ay = controls.getMovementVector()
-
-    if ax ~= 0 or ay ~= 0 then
-        -- apply force in the direction the key(s) are pressed
-        local forceX = ax * ACCEL
-        local forceY = ay * ACCEL
-        player.body:applyForce(forceX, forceY)
-    else
-        -- no key → apply linear drag (anti‑friction) to slow down
-        local vx, vy = player.body:getLinearVelocity()
-        local speed = math.sqrt(vx ^ 2 + vy ^ 2)
-
-        if speed > 0 then
-            local drag = math.min(DRAG * dt, speed)   -- don’t over‑drag
-            local ndx, ndy = -vx / speed, -vy / speed -- direction of drag
-            local dragX, dragY = ndx * drag, ndy * drag
-            player.body:applyForce(dragX, dragY)
-        end
-    end
-
-    -- clamp speed to MAX_SPEED
-    local vx, vy = player.body:getLinearVelocity()
-    local speed = math.sqrt(vx ^ 2 + vy ^ 2)
-    if speed > MAX_SPEED then
-        local factor = MAX_SPEED / speed
-        player.body:setLinearVelocity(vx * factor, vy * factor)
-    end
-
-    --update player's position
-    local x, y = player.body:getPosition()
-    player.x = x
-    player.y = y
-
-    -- Collision Player and Mice
     --collision check
     for i, sprite in ipairs(sprites) do
         if player:collide(sprite) then
@@ -135,7 +89,6 @@ function love.draw()
 
     --draw canvas content on screen
     love.graphics.draw(canvas, 0, 0)
-
 end
 
 function love.keypressed(key, scancode, isRepeat)
@@ -145,12 +98,14 @@ function love.keypressed(key, scancode, isRepeat)
     if key == "escape" then
         love.event.quit()
     end
+    keys[key] = true
 end
 
 function love.keyreleased(key, scancode)
     if(debugMode == "1") then
         print("Key Released: " .. "\n\tKey: " .. key .. ", \n\tScancode: " .. scancode )
     end
+    keys[key] = false
 end
 
 function love.restart()
