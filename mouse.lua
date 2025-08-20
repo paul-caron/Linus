@@ -8,15 +8,7 @@ local mouseText = [[
 
 function Mouse:new(world, font, x, y)
     local f = font or love.graphics.getFont()
-    local instance = Sprite:new(font, mouseText, x, y, 0.2,0.2,0.2,0, 1,1,1, 1)
-    instance.body = love.physics.newBody(world, 0, 0, "dynamic")
-    instance.body:setFixedRotation(true)    -- we’ll rotate manually if we want
-    instance.body:setLinearDamping(2) -- friction
-    instance.body:setMass(1)
-
-    -- a rectangular sensor shape
-    instance.shape = love.physics.newRectangleShape(instance.width/2, instance.height/2, instance.width, instance.height)
-    instance.fixture = love.physics.newFixture(instance.body, instance.shape, 1) -- density=1
+    local instance = Sprite:new(world, font, mouseText, x, y, 0.2,0.2,0.2,0, 1,1,1, 1)
     return instance
 end
 

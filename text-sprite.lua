@@ -22,7 +22,7 @@ defaultText = [[
 ==_Y_==
   `-']]
 
-function Sprite:new(font, text, x, y, rb, gb, bb, ab, rf, gf, bf, af) -- text = multiline textual sprite, x = x position, y = y position, rb-gb-bb background color, rf-gf-bf foreground color
+function Sprite:new(world, font, text, x, y, rb, gb, bb, ab, rf, gf, bf, af) -- text = multiline textual sprite, x = x position, y = y position, rb-gb-bb background color, rf-gf-bf foreground color
     local instance = setmetatable({}, Sprite)
     instance.font = font or love.graphics.getFont()
     instance.text = text or defaultText
@@ -39,6 +39,16 @@ function Sprite:new(font, text, x, y, rb, gb, bb, ab, rf, gf, bf, af) -- text = 
     instance.af = af or 1
     instance:initWidth()
     instance:initHeight()
+
+    instance.body = love.physics.newBody(world, x, y, "dynamic")
+    instance.body:setFixedRotation(true)    -- we’ll rotate manually if we want
+    instance.body:setLinearDamping(2) -- friction
+    instance.body:setMass(1)
+    instance.body:setLinearVelocity(0, 0)
+
+    instance.shape = love.physics.newRectangleShape(instance.width, instance.height)
+    instance.fixture = love.physics.newFixture(instance.body, instance.shape, 1) -- density=1
+
     return instance
 end
 
