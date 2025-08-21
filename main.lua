@@ -28,11 +28,23 @@ local font = nil --text font
 local canvas = nil --a separate window to draw to that isnt affected by glClear
 local fadeAlpha = 0.7 -- the canvas clear color alpha for ghost like movement effect
 local debugMode = nil -- for debugging purpose, monitors inputs, draws sprites shapes.
+local music = nil -- background music
 
 function love.load()
     debugMode = os.getenv("DEBUG")
     if(debugMode == "1") then
         print("Load")
+    end
+
+    --music load
+    local musicPath = "assets/redflow.mp3"
+    local success, result = pcall(love.audio.newSource, musicPath, "static")
+    if not success then
+        error("Failed to load the audio file: " .. result)
+    else
+        print("Music loaded successfully. Playing now...")
+        music = result
+        music:play()
     end
 
     --random RNG init
