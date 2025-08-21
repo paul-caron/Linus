@@ -2,6 +2,7 @@
 package.loaded["text-sprite"] = nil
 package.loaded["mouse"] = nil
 package.loaded["cat"] = nil
+package.loaded["cheese"] = nil
 package.loaded["controls"] = nil
 package.loaded["player"] = nil
 
@@ -9,6 +10,7 @@ package.loaded["player"] = nil
 local Sprite = require("text-sprite")
 local Mouse = require("mouse")
 local Cat = require("cat")
+local Cheese = require("cheese")
 local Player = require("player")
 local controls = require("controls")
 
@@ -20,10 +22,11 @@ local DRAG      = 300       -- pixels / second² when no key is pressed
 --other globals
 local sprites = {} --drawable textual sprites objects
 local player = nil --main hero sprite (Linus the cat)
+local cheese = nil --the treasure that the hero must guard
 local world = nil --the physics world
 local font = nil --text font
 local canvas = nil --a separate window to draw to that isnt affected by glClear
-local fadeAlpha = 0.17 -- the canvas clear color alpha for ghost like movement effect
+local fadeAlpha = 0.7 -- the canvas clear color alpha for ghost like movement effect
 local debugMode = nil -- for debugging purpose, monitors inputs, draws sprites shapes.
 
 function love.load()
@@ -50,6 +53,7 @@ function love.load()
 
     --player init
     player = Player:new(world, font, 400, 300)
+    cheese = Cheese:new(world, font, 400, 400)
 
     --mice init
     for i = 0, 5, 1 do
@@ -97,6 +101,9 @@ function love.update(dt)
     --update player's position
     player:updatePosition()
 
+    --cheese update
+    cheese:updatePosition()
+
     --update sprites positions
     for i, sprite in ipairs(sprites) do
         sprite:updatePosition()
@@ -127,6 +134,9 @@ function love.draw()
 
     --draw player
     player:draw()
+
+    --draw cheese
+    cheese:draw()
 
     if (debugMode == "1" and player.shape) then
         player:drawShape() -- draws the physics engine shape
