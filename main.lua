@@ -13,8 +13,8 @@ local Player = require("player")
 local controls = require("controls")
 
 --configs
-local ACCEL     = 400       -- pixels / second²
-local MAX_SPEED = 250       -- pixels / second
+local ACCEL     = 800       -- pixels / second²
+local MAX_SPEED = 500       -- pixels / second
 local DRAG      = 300       -- pixels / second² when no key is pressed
 
 --other globals
@@ -49,7 +49,7 @@ function love.load()
     world = love.physics.newWorld(0, 0, true)
 
     --player init
-    player = Player:new(world, font, 0, 600)
+    player = Player:new(world, font, 400, 300)
 
     --mice init
     for i = 0, 5, 1 do
@@ -107,14 +107,14 @@ function love.update(dt)
     --collision check
     for i, sprite in ipairs(sprites) do
         if player:collide(sprite) then
-            sprite.dead = true; -- mouse killed
+--            sprite.dead = true; -- mouse killed
         end
     end
 
     --remove dead mouse
     for i = #sprites, 1, -1 do   -- iterate backwards
         if sprites[i].dead == true then
-            table.remove(sprites, i)
+--            table.remove(sprites, i)
         end
     end
 end
